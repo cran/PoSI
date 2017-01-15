@@ -1,0 +1,4 @@
+importFrom("stats", "pchisq", "pf", "qchisq", "qf", "qnorm", "qt",
+             "rnorm")
+S3method(summary, PoSI)
+exportPattern("^[[:alpha:]]+")
