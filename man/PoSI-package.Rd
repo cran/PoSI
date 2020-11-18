@@ -22,8 +22,8 @@ Valid Post-Selection Inference for Linear LS Regression
 \tabular{ll}{
 Package: \tab PoSI\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2015-04-15\cr
+Version: \tab 1.1\cr
+Date: \tab 2020-10-24\cr
 License: \tab GPL-3 \cr
 }
 %% ~~ An overview of how to use the package, including the most important ~~
@@ -32,8 +32,9 @@ License: \tab GPL-3 \cr
 \author{Andreas Buja and Kai Zhang
 %% Who wrote it
 
-Maintainers: Andreas Buja <buja.at.wharton@gmail.com> and
-            Kai Zhang <zhangk@email.unc.edu>
+Maintainers: Andreas Buja <buja.at.wharton@gmail.com>,
+            Kai Zhang <zhangk@email.unc.edu> and
+            Wan Zhang <wanz63@live.unc.edu>
 %% Who to complain to <yourfault@somewhere.net>
 %% ~~ The author and/or maintainer of the package ~~
 }

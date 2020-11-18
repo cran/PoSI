@@ -192,103 +192,87 @@ PoSI(X, modelSZ = 1:ncol(X), center = T, scale = T, verbose = 1,
             The Annals of Statistics, 41 (2), 802-837 (2013).
 }
 
-\author{
-%%  ~~who you are~~
-  Andreas Buja and Kai Zhang
-}
-%% \note{
-%% %%  ~~further notes~~
-%% }
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-%% \seealso{
-%% %% ~~objects to See Also as \code{\link{help}}, ~~~
-%% }
-
 \examples{
 
+\dontrun{
 # Boston Housing data from http://archive.ics.uci.edu/ml/datasets/Housing
 data(Boston, package="MASS")
-.Random.seed <- 1:626
-UL.Boston <- PoSI(Boston[,-14])
+UL.Boston <- PoSI(Boston[,-14]) # 4.7 sec (**)
 summary(UL.Boston)
     ##     K.PoSI K.Bonferroni K.Scheffe
-    ## 95%  3.593        4.904     4.729
-    ## 99%  4.072        5.211     5.262
+    ## 95\%  3.593        4.904     4.729
+    ## 99\%  4.072        5.211     5.262
+}
 
 
 # Just 1 predictor:
-.Random.seed <- 1:626
 X.1 <- as.matrix(rnorm(100))
 UL.max.1 <- PoSI(X.1)
 summary(UL.max.1)             # Assuming sigma is known
     ##     K.PoSI K.Bonferroni K.Scheffe
-    ## 95%  1.960        1.960     1.960
-    ## 99%  2.576        2.576     2.576
+    ## 95\%  1.960        1.960     1.960
+    ## 99\%  2.576        2.576     2.576
 summary(UL.max.1, df.err=4)  # sigma estimated with 4 dfs
     ##     K.PoSI K.Bonferroni K.Scheffe
-    ## 95%  2.776        2.776     2.776
-    ## 99%  4.604        4.604     4.604
+    ## 95\%  2.776        2.776     2.776
+    ## 99\%  4.604        4.604     4.604
 
 
 # small N and automatic removal of intercept:
 p <- 6;  N <- 4
-.Random.seed <- 1:626
 X.small <- cbind(1,matrix(rnorm(N*p), ncol=p))
 UL.max.small <- PoSI(X.small, modelSZ=c(4,3,1), Nsim=1000, bundleSZ=5, verbose=2)
 summary(UL.max.small, df.err=4)
     ##     K.PoSI K.Bonferroni K.Scheffe
-    ## 95%  4.226        9.256     4.447
-    ## 99%  6.731       13.988     7.077
+    ## 95\%  4.226        9.256     4.447
+    ## 99\%  6.731       13.988     7.077
 
-
+\dontrun{
 # Orthogonal regressors:
 p <- 10; N <- 10
-.Random.seed <- 1:626
 X.orth <- qr.Q(qr(matrix(rnorm(p*N), ncol=p)))
-UL.max.orth <- PoSI(X.orth, Nsim=10000)
+UL.max.orth <- PoSI(X.orth, Nsim=10000) # 2.8 sec (**)
 summary(UL.max.orth)
     ##     K.PoSI K.Bonferroni K.Scheffe
-    ## 95%  3.448        4.422     4.113
-    ## 99%  3.947        4.758     4.655
-
+    ## 95\%  3.448        4.422     4.113
+    ## 99\%  3.947        4.758     4.655
+}
 
 \dontrun{
 # Large p=50, small N=20, models up to size 4:  1.3min
 p <- 50;  N <- 20
-.Random.seed <- 1:626
 X.p50.N20 <- matrix(rnorm(p*N), ncol=p)
 UL.max.p50.N20 <- PoSI(X.p50.N20, Nsim=1000, bundleSZ=100000, modelSZ=1:4) # 1.3 min (*)
 summary(UL.max.p50.N20)
 ##     K.PoSI K.Bonferroni K.Scheffe
-## 95%  4.309        5.448     5.490
-## 99%  4.769        5.728     6.016
+## 95\%  4.309        5.448     5.490
+## 99\%  4.769        5.728     6.016
 }
 
-
+\dontrun{
 # The following is modeled on a real data example:
 p <- 84;  N <- 2758
-.Random.seed <- 1:626
 X.84 <- matrix(rnorm(p*N), ncol=p)
 # --- (1) Rich submodels: sizes m=84 and m=83 with more simulations (10,000) for precision
 UL.max.84 <- PoSI(X.84, Nsim=1000, bundleSZ=10000, modelSZ=c(p-1,p))  # 2 sec (*)
 summary(UL.max.84)
     ##     K.PoSI K.Bonferroni K.Scheffe
-    ## 95%  3.494        4.491    10.315
-    ## 99%  3.936        4.823    10.819
+    ## 95\%  3.494        4.491    10.315
+    ## 99\%  3.936        4.823    10.819
+}
+
 \dontrun{
 # --- (2) Sparse submodels: p=84, model size m=4, in p=d=84 dimensions:
 # WARNING:  17 minutes (*)
 UL.max.84.4 <- PoSI(X.84, Nsim=1000, bundleSZ=100000, modelSZ=4)
 summary(UL.max.84.4)
     ##     K.PoSI K.Bonferroni K.Scheffe
-    ## 95%  3.553        5.804    10.315
-    ## 99%  3.966        6.068    10.819
+    ## 95\%  3.553        5.804    10.315
+    ## 99\%  3.966        6.068    10.819
 summary(UL.max.84.4, df.err=2758-84-1)
     ##     K.PoSI K.Bonferroni K.Scheffe
-    ## 95%  3.557        5.823    10.338
-    ## 99%  3.972        6.089    10.855
+    ## 95\%  3.557        5.823    10.338
+    ## 99\%  3.972        6.089    10.855
 }
 
 
@@ -296,17 +280,16 @@ summary(UL.max.84.4, df.err=2758-84-1)
 # Big experiment: full large PoSI for p=20
 # WARNING: 13 minutes (*)
 p <- 20;  N <- 1000
-.Random.seed <- 1:626
 X.p20 <- matrix(rnorm(N*p), ncol=p)
 UL.max.p20 <- PoSI(X.p20, bundleSZ=100000)
 summary(UL.max.p20)
     ##     K.PoSI K.Bonferroni K.Scheffe
-    ## 95%  3.163        5.855     5.605
-    ## 99%  3.626        6.117     6.129
+    ## 95\%  3.163        5.855     5.605
+    ## 99\%  3.626        6.117     6.129
 summary(UL.max.p20, df.err=1000-21)
     ##     K.PoSI K.Bonferroni K.Scheffe
-    ## 95%  3.171        5.908     5.624
-    ## 99%  3.638        6.177     6.160
+    ## 95\%  3.171        5.908     5.624
+    ## 99\%  3.638        6.177     6.160
 }
 
 
@@ -314,33 +297,36 @@ summary(UL.max.p20, df.err=1000-21)
 # Big experiment: sparse large PoSI with p=50 and m=1:5:
 ## WARNING: 22 minutes (*)
 p <- 50;  N <- 1000;  m <- 1:5
-.Random.seed <- 1:626
 X.p50 <- matrix(rnorm(N*p), ncol=p)
 UL.max.p50.m5 <- PoSI(X.p50, bundleSZ=100000, modelSZ=m)
 summary(UL.max.p50.m5)
     ##    K.PoSI K.Bonferroni K.Scheffe
-    ## 95%  3.548        5.871     8.216
-    ## 99%  4.041        6.133     8.727
+    ## 95\%  3.548        5.871     8.216
+    ## 99\%  4.041        6.133     8.727
 }
 
-
+\dontrun{
 # Exchangeable Designs:
 # function to create exchangeable designs:
 design.exch <- function(p,a) { (1-a)*diag(p) + a*matrix(1,p,p) }
 # example:
 p <- 12;  a <- 0.5;
 X.exch <- design.exch(p=p, a=a)
-.Random.seed <- 1:626
-UL.exch <- PoSI(X.exch, verbose=0, modelSZ=1:p)
+UL.exch <- PoSI(X.exch, verbose=0, modelSZ=1:p) # 2 sec (**)
 summary(UL.exch)
     ##    K.PoSI K.Bonferroni K.Scheffe
-    ## 95%  3.635        4.750     4.436
-    ## 99%  4.129        5.066     4.972
+    ## 95\%  3.635        4.750     4.436
+    ## 99\%  4.129        5.066     4.972
+}
 
 
 # (*) Elapsed times were measured in R version 3.1.3, 32 bit,
 #     on a processor Intel(R) Core(TM), 2.9 GHz, under Windows 7.
 #     2015/04/16
+
+# (**) Elapsed times were measured in R version 4.0.2, 64 bit,
+#      on a processor Intel(R) Core(TM), 1.80 GHz, under Windows 10.
+#      2020/10/26
 }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -258,14 +258,14 @@ summary.PoSI <- function(object, confidence=c(.95,.99), alpha=NULL, df.err=NULL,
 {
     if(class(object) != "PoSI") {
         cat("summary.PoSI: first argument is not of class 'PoSI'.\n")
-        return
+        return()
     }
     rU <- 1/object
     df <- attributes(object)$d
     if(is.null(alpha)) { alpha <- 1-confidence } else { confidence <- 1-alpha }
     if(any(alpha >= 1) | any(confidence >= 1)) {
         cat("summary.PoSI: args 'confidence' or 'alpha' out of range (0,1).\n")
-        return
+        return()
     }
     # The following functions rely on lexical scoping:
     if(is.null(df.err)) { # sigma known  ==>  z-statistics
@@ -297,6 +297,5 @@ summary.PoSI <- function(object, confidence=c(.95,.99), alpha=NULL, df.err=NULL,
     rownames(Ks) <- paste(confidence*100,"%",sep="")
     round(Ks, digits)
 } # end of 'summary.PoSI <- function(...'
-
 
 #================================================================
